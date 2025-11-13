@@ -1,0 +1,20 @@
+🎯 Number Guessing Game
+
+A fun and interactive Python console game where you try to guess the number randomly chosen by the computer. The program gives you hints until you find the correct number.
+
+📌 Overview
+The Number Guessing Game is a beginner-friendly Python project that introduces core programming concepts such as loops, conditionals, and random number generation.
+Your goal is simple — guess the secret number between 1 and 100.
+
+✅ Features
+✔ Generates a random number between 1 and 100
+✔ Provides hints if your guess is too high or too low
+✔ Keeps running until you guess correctly
+✔ Simple, clean, and interactive command-line interface
+✔ Great for beginners learning Python basics.
+
+🧠 Concepts Covered
+-Random number generation using random.randint()
+-While loops and conditionals (if, elif, else)
+-User input handling
+-Basic game logic in Python

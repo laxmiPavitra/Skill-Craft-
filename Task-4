@@ -1,0 +1,47 @@
+📚Web Scraper using Python
+
+A simple yet powerful Python web scraping project that extracts book details (name, price, and rating) from the demo e-commerce website Books to 
+Scrape.
+The extracted data is saved into a CSV file for easy analysis and visualization.
+
+📌 Overview
+This project demonstrates how to use Python’s Requests and BeautifulSoup libraries to scrape structured data from a web page.
+It’s a great beginner-friendly project to learn the basics of web scraping, data extraction, and CSV handling.
+
+✅ Features
+✔ Scrapes book title, price, and rating from each product
+✔ Exports the data into a CSV file (products.csv)
+✔ Uses BeautifulSoup for clean HTML parsing
+✔ Handles HTTP requests and errors gracefully.
+
+🧩 Technologies Used
+🐍 Python 3
+🌐 Requests (for fetching HTML content)
+🍜 BeautifulSoup (bs4) (for parsing and extracting data)
+📊 CSV module (for saving data)
+
+💻 Python Code
+import requests
+from bs4 import BeautifulSoup
+import csv
+
+URL = "https://books.toscrape.com/catalogue/page-1.html"
+response = requests.get(URL)
+response.raise_for_status()  # check for request errors
+soup = BeautifulSoup(response.text, 'html.parser')
+
+products = soup.find_all('article', class_='product_pod')
+
+with open('products.csv', 'w', newline='', encoding='utf-8') as file:
+    writer = csv.writer(file)
+    writer.writerow(["Product Name", "Price", "Rating"])
+
+    for product in products:
+        name = product.h3.a['title']
+        price = product.find('p', class_='price_color').text
+        rating = product.p['class'][1]  # rating class (e.g., "Three", "Five")
+        
+        writer.writerow([name, price, rating])
+
+print("✅ Data saved successfully to 'products.csv'").
+

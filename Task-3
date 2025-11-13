@@ -1,0 +1,148 @@
+🧩 Sudoku Puzzle using Backtracking Algorithm
+A Python-based program that automatically solves any valid 9×9 Sudoku puzzle using the Backtracking algorithm.
+It demonstrates the power of recursion, logical constraints, and algorithmic problem-solving in Python.
+
+📌 Overview
+This project uses a classic backtracking approach to fill empty cells in a Sudoku grid.
+The solver systematically tries possible numbers, validates each placement according to Sudoku rules, and backtracks when a dead end is reached — efficiently finding the correct solution (if one exists).
+
+✅ Features
+✔ Solves any valid Sudoku puzzle automatically
+✔ Uses Backtracking — a depth-first search algorithm
+✔ Includes validation for rows, columns, and 3×3 boxes
+✔ Displays both the original and solved Sudoku grids
+✔ Clean, readable output with formatted printing
+✔ Written in pure Python, with no external dependencies
+
+
+🧠 Concepts Used
+-Backtracking Algorithm (recursive search and constraint checking)
+-Sudoku validation logic (rows, columns, and 3×3 subgrids)
+-Grid-based problem-solving
+-Python fundamentals (loops, functions, conditionals, lists)
+
+
+🔮 Possible Enhancements
+💡 Add a GUI using tkinter for visual solving
+💡 Add step-by-step visualization of the solving process
+💡 Implement puzzle input from a file
+💡 Add difficulty level generator.
+
+
+💻 Python code
+# Sudoku Solver using Backtracking Algorithm
+
+# Function to print the Sudoku grid neatly
+def print_grid(grid):
+    for row in range(9):
+        if row % 3 == 0 and row != 0:
+            print("-" * 21)
+        for col in range(9):
+            if col % 3 == 0 and col != 0:
+                print("|", end=" ")
+            print(grid[row][col] if grid[row][col] != 0 else ".", end=" ")
+        print()
+
+# Function to find the next empty cell (returns None if full)
+def find_empty(grid):
+    for i in range(9):
+        for j in range(9):
+            if grid[i][j] == 0:
+                return (i, j)  # row, col
+    return None
+
+# Check if placing a number is valid
+def valid(grid, num, pos):
+    row, col = pos
+
+    # Check row
+    if num in grid[row]:
+        return False
+
+    # Check column
+    if num in [grid[i][col] for i in range(9)]:
+        return False
+
+    # Check 3x3 box
+    box_x = col // 3
+    box_y = row // 3
+
+    for i in range(box_y * 3, box_y * 3 + 3):
+        for j in range(box_x * 3, box_x * 3 + 3):
+            if grid[i][j] == num:
+                return False
+
+    return True
+
+# Backtracking algorithm
+def solve(grid):
+    find = find_empty(grid)
+    if not find:
+        return True  # Solved
+    else:
+        row, col = find
+
+    for num in range(1, 10):
+        if valid(grid, num, (row, col)):
+            grid[row][col] = num
+
+            if solve(grid):
+                return True
+
+            # Undo the move (backtrack)
+            grid[row][col] = 0
+
+    return False
+
+
+# Example Sudoku puzzle (0 represents empty spaces)
+sudoku_grid = [
+    [7, 8, 0, 4, 0, 0, 1, 2, 0],
+    [6, 0, 0, 0, 7, 5, 0, 0, 9],
+    [0, 0, 0, 6, 0, 1, 0, 7, 8],
+    [0, 0, 7, 0, 4, 0, 2, 6, 0],
+    [0, 0, 1, 0, 5, 0, 9, 3, 0],
+    [9, 0, 4, 0, 6, 0, 0, 0, 5],
+    [0, 7, 0, 3, 0, 0, 0, 1, 2],
+    [1, 2, 0, 0, 0, 7, 4, 0, 0],
+    [0, 4, 9, 2, 0, 6, 0, 0, 7]
+]
+
+print("🧩 Original Sudoku Puzzle:\n")
+print_grid(sudoku_grid)
+
+if solve(sudoku_grid):
+    print("\n✅ Solved Sudoku Puzzle:\n")
+    print_grid(sudoku_grid)
+else:
+    print("❌ No solution exists for this Sudoku.")
+
+Output:
+🧩 Original Sudoku Puzzle:
+
+7 8 . | 4 . . | 1 2 . 
+6 . . | . 7 5 | . . 9 
+. . . | 6 . 1 | . 7 8 
+---------------------
+. . 7 | . 4 . | 2 6 . 
+. . 1 | . 5 . | 9 3 . 
+9 . 4 | . 6 . | . . 5 
+---------------------
+. 7 . | 3 . . | . 1 2 
+1 2 . | . . 7 | 4 . . 
+. 4 9 | 2 . 6 | . . 7 
+
+✅ Solved Sudoku Puzzle:
+
+7 8 5 | 4 3 9 | 1 2 6 
+6 1 2 | 8 7 5 | 3 4 9 
+4 9 3 | 6 2 1 | 5 7 8 
+---------------------
+8 5 7 | 9 4 3 | 2 6 1 
+2 6 1 | 7 5 8 | 9 3 4 
+9 3 4 | 1 6 2 | 7 8 5 
+---------------------
+5 7 8 | 3 9 4 | 6 1 2 
+1 2 6 | 5 8 7 | 4 9 3 
+3 4 9 | 2 1 6 | 8 5 7
+
